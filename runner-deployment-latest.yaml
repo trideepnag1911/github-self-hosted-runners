@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: runner
+  name: runner
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: runner
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: runner
+    spec:
+      containers:
+      - image: github-runner:6.0
+        name: github-runner
+        env:
+        - name: URL
+          value: "https://github.com/trideepnag1911/gradle-build"
+        - name: TOKEN
+          value: "AOX7Y4OJRCYDEPDQR2CVIB3C5T6VU"
+        lifecycle:
+          preStop:
+            exec:
+              command: ["/bin/sh","-c","/actions-runner/deregister.sh"]
+        
